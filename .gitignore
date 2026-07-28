@@ -1,0 +1,5 @@
+**/.idea/
+**/*.iml
+**/.vscode/
+# Zmienne środowiskowe
+.env
