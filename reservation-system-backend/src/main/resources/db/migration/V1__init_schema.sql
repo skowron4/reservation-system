@@ -111,6 +111,13 @@ EXCLUDE USING gist (
     tstzrange(start_time, end_time, '[)') WITH &&
 ) WHERE (status IN ('confirmed', 'pending'));
 
+ALTER TABLE reservations
+    ADD CONSTRAINT no_overlapping_reservations
+    EXCLUDE USING gist (
+        room_id WITH =,
+        tstzrange(start_time, end_time, '[)') WITH &&
+    ) WHERE (status IN ('confirmed', 'pending'));
+
 CREATE OR REPLACE FUNCTION prevent_deleting_active_rooms()
 RETURNS TRIGGER AS $$
 BEGIN
