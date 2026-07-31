@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # 1. DB PostgreSQL
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: reservation-postgres
+    environment:
+      POSTGRES_DB: reservation_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Backend (Spring Boot)
+  backend:
+    build:
+      context: ./reservation-system-backend
+    container_name: reservation-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/reservation_db
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - postgres-db
+
+  # 3. Frontend (Angular)
+  frontend:
+    build:
+      context: ./reservation-system-frontend
+    container_name: reservation-frontend
+    ports:
+      - "80:80" # http://localhost
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

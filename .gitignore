@@ -3,3 +3,4 @@
 **/.vscode/
 # Zmienne środowiskowe
 .env
+docker-compose.override.yaml
