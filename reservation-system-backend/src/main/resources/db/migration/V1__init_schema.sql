@@ -57,7 +57,7 @@ CREATE TABLE rooms (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     public_id UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
     name VARCHAR(255) NOT NULL,
-    building_id INT REFERENCES buildings(id) ON DELETE RESTRICT,
+    building_id INT NOT NULL REFERENCES buildings(id) ON DELETE RESTRICT,
     capacity INT NOT NULL CHECK (capacity > 0),
     status room_status DEFAULT 'active',
     created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -67,6 +67,9 @@ CREATE TABLE rooms (
 );
 
 CREATE INDEX idx_rooms_public_id ON rooms(public_id);
+CREATE UNIQUE INDEX idx_rooms_unique_name_per_building
+    ON rooms(building_id, name)
+    WHERE deleted_at IS NULL;
 
 CREATE TABLE amenities (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
