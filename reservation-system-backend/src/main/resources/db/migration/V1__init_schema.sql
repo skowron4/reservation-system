@@ -74,7 +74,7 @@ CREATE UNIQUE INDEX idx_rooms_unique_name_per_building
 CREATE TABLE amenities (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     public_id UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
-    name VARCHAR(100) NOT NULL,
+    name VARCHAR(100) UNIQUE NOT NULL,
     icon VARCHAR(255),
     deleted_at TIMESTAMPTZ
 );
