@@ -1,7 +1,6 @@
-package com.skowron4.reservationsystem.reservation.domain;
+package com.skowron4.reservationsystem.resource.domain.room;
 
-import com.skowron4.reservationsystem.resource.domain.room.Room;
-import com.skowron4.reservationsystem.user.domain.User;
+import com.skowron4.reservationsystem.resource.domain.building.Building;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
@@ -12,14 +11,14 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "reservations")
+@Table(name = "rooms")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Reservation {
+public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
@@ -29,35 +28,22 @@ public class Reservation {
     @Builder.Default
     private UUID publicId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
-    private Room room;
+    @Column(nullable = false)
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "building_id", nullable = false)
+    private Building building;
 
     @Column(nullable = false)
-    private String title;
-
-    @Column(columnDefinition = "TEXT")
-    private String description;
-
-    @Column(name = "attendees_count", nullable = false)
     @Min(1)
-    private Integer attendeesCount;
-
-    @Column(name = "start_time", nullable = false)
-    private OffsetDateTime startTime;
-
-    @Column(name = "end_time", nullable = false)
-    private OffsetDateTime endTime;
+    private Integer capacity;
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    @Column(nullable = false)
+    @Column(name = "room_staus")
     @Builder.Default
-    private ReservationStatus reservationStatus = ReservationStatus.PENDING;
+    private RoomStatus status = RoomStatus.ACTIVE;
 
     @Column(name = "created_at", updatable = false)
     private OffsetDateTime createdAt;
@@ -67,6 +53,9 @@ public class Reservation {
 
     @Column(name = "deleted_at")
     private OffsetDateTime deletedAt;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @PrePersist
     protected void onCreate() {
