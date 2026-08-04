@@ -99,7 +99,7 @@ CREATE TABLE reservations (
     attendees_count INT NOT NULL CHECK (attendees_count > 0),
     start_time TIMESTAMPTZ NOT NULL,
     end_time TIMESTAMPTZ NOT NULL,
-    status reservation_status DEFAULT 'pending',
+    status reservation_status NOT NULL DEFAULT 'pending',
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW(),
     CONSTRAINT chk_reservation_time CHECK (start_time < end_time)

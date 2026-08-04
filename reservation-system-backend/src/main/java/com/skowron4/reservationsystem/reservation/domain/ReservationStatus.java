@@ -1,4 +1,7 @@
 package com.skowron4.reservationsystem.reservation.domain;
 
-public class ReservationStatus {
+public enum ReservationStatus {
+    PENDING,
+    CONFIRMED,
+    CANCELLED
 }
