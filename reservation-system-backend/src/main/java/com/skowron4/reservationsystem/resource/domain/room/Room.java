@@ -1,5 +1,6 @@
-package com.skowron4.reservationsystem.resource.domain;
+package com.skowron4.reservationsystem.resource.domain.room;
 
+import com.skowron4.reservationsystem.resource.domain.building.Building;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;

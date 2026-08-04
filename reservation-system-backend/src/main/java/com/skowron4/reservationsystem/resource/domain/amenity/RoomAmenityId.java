@@ -1,4 +1,4 @@
-package com.skowron4.reservationsystem.resource.domain;
+package com.skowron4.reservationsystem.resource.domain.amenity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

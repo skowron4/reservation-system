@@ -1,6 +1,6 @@
 package com.skowron4.reservationsystem.reservation.domain;
 
-import com.skowron4.reservationsystem.resource.domain.Room;
+import com.skowron4.reservationsystem.resource.domain.room.Room;
 import com.skowron4.reservationsystem.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;

@@ -1,4 +1,4 @@
-package com.skowron4.reservationsystem.resource.domain;
+package com.skowron4.reservationsystem.resource.domain.building;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;

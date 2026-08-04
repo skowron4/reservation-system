@@ -1,9 +1,9 @@
-package com.skowron4.reservationsystem.resource.domain;
+package com.skowron4.reservationsystem.resource.domain.amenity;
 
+import com.skowron4.reservationsystem.resource.domain.room.Room;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
-import lombok.extern.apachecommons.CommonsLog;
 
 @Entity
 @Table(name = "room_amenities")
