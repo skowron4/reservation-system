@@ -1,5 +1,6 @@
-package com.skowron4.reservationsystem.resource.domain.building;
+package com.skowron4.reservationsystem.resource.domain.schedule;
 
+import com.skowron4.reservationsystem.resource.domain.building.Building;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
