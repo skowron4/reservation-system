@@ -1,9 +1,12 @@
 package com.skowron4.reservationsystem.resource.domain.building;
 
+import com.skowron4.reservationsystem.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -45,6 +48,14 @@ public class Building {
 
     @Column(name = "deleted_at")
     private OffsetDateTime deletedAt;
+
+    @ManyToMany
+    @JoinTable(
+            name = "manager_buildings",
+            joinColumns = @JoinColumn(name = "building_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> managers = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {

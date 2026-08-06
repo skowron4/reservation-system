@@ -110,7 +110,6 @@ CREATE INDEX idx_reservations_public_id ON reservations(public_id);
 CREATE TABLE manager_buildings (
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
     building_id INT REFERENCES buildings(id) ON DELETE CASCADE,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (user_id, building_id)
 );
 
