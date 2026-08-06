@@ -1,4 +1,4 @@
-package com.skowron4.reservationsystem.resource.domain.building;
+package com.skowron4.reservationsystem.resource.domain.schedule;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

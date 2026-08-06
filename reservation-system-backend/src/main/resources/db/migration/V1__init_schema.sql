@@ -107,19 +107,43 @@ CREATE TABLE reservations (
 
 CREATE INDEX idx_reservations_public_id ON reservations(public_id);
 
+CREATE TABLE manager_buildings (
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    building_id INT REFERENCES buildings(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, building_id)
+);
+
+CREATE INDEX idx_manager_buildings_building_id ON manager_buildings(building_id);
+
+CREATE OR REPLACE FUNCTION check_manager_role()
+RETURNS TRIGGER AS $$
+DECLARE
+user_role_val user_role;
+BEGIN
+    -- Pobranie roli przypisywanego użytkownika
+SELECT role INTO user_role_val
+FROM users
+WHERE id = NEW.user_id;
+
+-- Weryfikacja, czy użytkownik ma odpowiednią rolę
+IF user_role_val != 'MANAGER' THEN
+        RAISE EXCEPTION 'Cannot assign building. User has role % but MANAGER is required.', user_role_val;
+END IF;
+
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_check_manager_role
+    BEFORE INSERT OR UPDATE ON manager_buildings
+                         FOR EACH ROW EXECUTE FUNCTION check_manager_role();
+
 ALTER TABLE reservations
 ADD CONSTRAINT no_overlapping_reservations
 EXCLUDE USING gist (
     room_id WITH =,
     tstzrange(start_time, end_time, '[)') WITH &&
 ) WHERE (status IN ('confirmed', 'pending'));
-
-ALTER TABLE reservations
-    ADD CONSTRAINT no_overlapping_reservations
-    EXCLUDE USING gist (
-        room_id WITH =,
-        tstzrange(start_time, end_time, '[)') WITH &&
-    ) WHERE (status IN ('confirmed', 'pending'));
 
 CREATE OR REPLACE FUNCTION prevent_deleting_active_rooms()
 RETURNS TRIGGER AS $$
