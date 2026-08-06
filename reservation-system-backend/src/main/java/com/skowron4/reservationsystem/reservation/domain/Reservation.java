@@ -27,7 +27,7 @@ public class Reservation {
     @EqualsAndHashCode.Include
     @Column(name = "public_id", nullable = false, unique = true, updatable = false)
     @Builder.Default
-    private UUID publicId;
+    private UUID publicId = UUID.randomUUID();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")

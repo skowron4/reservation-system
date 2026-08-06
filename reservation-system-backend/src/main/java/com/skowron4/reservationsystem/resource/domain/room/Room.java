@@ -26,7 +26,7 @@ public class Room {
     @EqualsAndHashCode.Include
     @Column(name = "public_id", nullable = false, unique = true, updatable = false)
     @Builder.Default
-    private UUID publicId;
+    private UUID publicId = UUID.randomUUID();
 
     @Column(nullable = false)
     private String name;
